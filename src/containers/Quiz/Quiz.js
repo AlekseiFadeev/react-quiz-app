@@ -4,15 +4,28 @@ import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 
 class Quiz extends Component {
   state = {
+    activeQuestion: 0,
     quiz: [
       {
         question: 'Какого цвета небо?',
         rightAnswerId: 2,
+        id: 1,
         answers: [
           {text: 'Черного', id: 1},
           {text: 'Синего', id: 2},
           {text: 'Красного', id: 3},
           {text: 'Зеленого', id: 4}
+        ]
+      },
+      {
+        question: 'В каком году основали Санкт-Петербург?',
+        rightAnswerId: 3,
+        id: 2,
+        answers: [
+          {text: '1700', id: 1},
+          {text: '1705', id: 2},
+          {text: '1703', id: 3},
+          {text: '1707', id: 4}
         ]
       }
     ]
@@ -20,8 +33,10 @@ class Quiz extends Component {
 
   onAnswerClickHandler = (answerId) => {
     console.log('Answer Id: ', answerId)
-    if(answerId === this.state.quiz[0].rightAnswerId) console.log("Правильно!")
-    else console.log("Не правильно.")
+
+    this.setState({
+      activeQuestion: this.state.activeQuestion + 1
+    })
   }
 
   render() {
@@ -31,9 +46,11 @@ class Quiz extends Component {
           <h1>Ответьте на все вопросы</h1>
 
           <ActiveQuiz
-            question={this.state.quiz[0].question}
-            answers={this.state.quiz[0].answers}
+            question={this.state.quiz[this.state.activeQuestion].question}
+            answers={this.state.quiz[this.state.activeQuestion].answers}
             onAnswerClick={this.onAnswerClickHandler}
+            quizLength={this.state.quiz.length}
+            answerNumber={this.state.activeQuestion + 1}
           />
         </div>
       </div>
