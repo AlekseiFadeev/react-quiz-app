@@ -1,15 +1,15 @@
 import React from "react"
-import classess from "./MenuToggle.module.css"
+import classes from "./MenuToggle.module.css"
 
 const MenuToggle = props => {
   const cls = [
-    classess.MenuToggle,
+    classes.MenuToggle,
     'fa'
   ]
 
   if (props.isOpen) {
     cls.push('fa-times')
-    cls.push(classess.open)
+    cls.push(classes.open)
   } else {
     cls.push('fa-bars')
   }
