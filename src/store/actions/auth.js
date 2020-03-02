@@ -32,17 +32,34 @@ export function auth(email, password, isLogin) {
 export function autoLogout(time) {
     return dispath => {
         setTimeout(() => {
-            dispath(loguot())
+            dispath(logout())
         }, time * 1000)
     }
 }
 
-export function loguot() {
+export function logout() {
     localStorage.removeItem('token')
     localStorage.removeItem('userid')
     localStorage.removeItem('expirationDate')
     return {
         type: AUTH_LOGOUT
+    }
+}
+
+export function autoLogin() {
+    return dispath => {
+        const token = localStorage.getItem('token')
+        if(!token) {
+            dispath(logout())
+        } else {
+            const expirationDate = new Date(localStorage.getItem('expirationDate'))
+            if(expirationDate <= new Date()) {
+                dispath(logout())
+            } else {
+                dispath(authSuccess(token))
+                dispath(autoLogout(expirationDate.getTime() - new Date().getTime() / 1000))
+            }
+        }
     }
 }
 
